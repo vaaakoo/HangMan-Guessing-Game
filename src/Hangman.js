@@ -70,7 +70,6 @@ const Hangman = () => {
   const playAgain = () => {
     window.location.reload();
   };
-
   return (
     <div className="container">
       <p>Word: {wordDisplay.join(" ")}</p>
