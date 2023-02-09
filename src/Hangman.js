@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import "./styles.css";
 import dead from "./image/dead.png";
-import ready from "./image/ready.png";
 import words from "./components/words.json";
+import Score from "./components/Score";
+import Input from "./components/Input";
+import Images from "./components/Images";
 
 const Hangman = () => {
-  const [wordIndex, setWordIndex] = useState(0);
+  const [wordIndex, setWordIndex] = useState(
+    Math.floor(Math.random() * words.length)
+  );
   const [word, setWord] = useState(words[wordIndex]);
   const [guessedLetters, setGuessedLetters] = useState([]);
   const [incorrectGuesses, setIncorrectGuesses] = useState(0);
@@ -69,45 +72,73 @@ const Hangman = () => {
     }
   };
 
-  const playAgain = () => {
+  const restart = () => {
     window.location.reload();
   };
-  return (
-    <div className="container">
-      <p>Word: {wordDisplay.join(" ")}</p>
-      <p>Incorrect Guesses: {incorrectGuesses}</p>
-      <p>Guessed Letters: {guessedLetters.join(", ")}</p>
-      <p>Player Score: {playerScore}</p>
-      <p>Computer Score: {computerScore}</p>
 
-      {hasLost || isWordGuessed ? (
-        <button onClick={reloadPage}>Play Again</button>
-        <img src={dead} alt="dead" />
-      ) : isPlayerWinner ? (
-        <div>
-          <button onClick={playAgain}>Restart</button>
-          <p>
-            <strong>{winner}</strong> is the winner!
-          </p>
+  return (
+    <div className="h-screen max-w-full m-0 bg-slate-300 pt-3">
+      <div className=" w-[85%] md:w-[650px] h-[85%] mx-auto p-4 bg-hero bg-no-repeat shadow-lg">
+        <div className="flex flex-col w-full gap-3">
+          <div className="font-semibold text-xl text-gray-800">
+            <p>
+              Word:{" "}
+              <span className="p-4 mx-2 italic"> {wordDisplay.join(" ")}</span>
+            </p>
+            <p>
+              Incorrect Guesses: <span> {incorrectGuesses}</span>
+            </p>
+            <p>
+              Guessed Letters: <span> {guessedLetters.join(", ")}</span>
+            </p>
+            <Score playerScore={playerScore} computerScore={computerScore} />
+          </div>
+          {hasLost || isWordGuessed ? (
+            <>
+              <button
+                className="w-48 px-8 py-2 rounded-xl cursor-pointer outline-none shadow-md hover:opacity-80 bg-gray-500 text-lg font-bold text-white"
+                onClick={reloadPage}
+              >
+                Play Again
+              </button>
+              <div className="mt-5 w-[300px] h-[300px] mx-auto shadow-gray-600 rounded-md shadow-md p-4">
+                <img src={dead} alt="dead" />
+              </div>
+            </>
+          ) : isPlayerWinner ? (
+            <div className="bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center">
+              <div className="fixed inset-0 transition-opacity">
+                <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+              </div>
+              <div className="bg-gray-100 rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+                <div className="bg-gray-200 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 flex flex-col items-center gap-5">
+                  <button
+                    className=" w-48 px-8 py-2 rounded-xl cursor-pointer outline-none shadow-md hover:opacity-80 bg-gray-500 text-lg font-bold text-white"
+                    onClick={restart}
+                  >
+                    Restart
+                  </button>
+                  <p className="text-2xl text-gray-700">
+                    winner is the
+                    <strong className="text-green-600 font-bold text-3xl">
+                      {" "}
+                      {winner}!
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <Input
+              handleChange={handleChange}
+              handleGuess={handleGuess}
+              inputValue={inputValue}
+            />
+          )}
+
+          <Images incorrectGuesses={incorrectGuesses} />
         </div>
-      ) : (
-        <input
-          type="text"
-          value={inputValue}
-          maxLength={1}
-          onChange={handleChange}
-          onKeyPress={(event) => {
-            if (event.key === "Enter") {
-              handleGuess(inputValue.toLowerCase());
-            }
-          }}
-        />
-      )}
-      {incorrectGuesses >= 3 && incorrectGuesses <= 4 ? (
-        <img src={ready} alt="img" />
-      ) : (
-        ""
-      )}
+      </div>
     </div>
   );
 };
