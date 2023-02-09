@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./styles.css";
+import dead from "./image/dead.png";
+import ready from "./image/ready.png";
 import words from "./components/words.json";
 
 const Hangman = () => {
@@ -80,6 +82,7 @@ const Hangman = () => {
 
       {hasLost || isWordGuessed ? (
         <button onClick={reloadPage}>Play Again</button>
+        <img src={dead} alt="dead" />
       ) : isPlayerWinner ? (
         <div>
           <button onClick={playAgain}>Restart</button>
@@ -99,6 +102,11 @@ const Hangman = () => {
             }
           }}
         />
+      )}
+      {incorrectGuesses >= 3 && incorrectGuesses <= 4 ? (
+        <img src={ready} alt="img" />
+      ) : (
+        ""
       )}
     </div>
   );
