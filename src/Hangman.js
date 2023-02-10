@@ -78,7 +78,10 @@ const Hangman = () => {
 
   return (
     <div className="h-screen max-w-full m-0 bg-slate-300 pt-3">
-      <div className=" w-[85%] md:w-[650px] h-[85%] mx-auto p-4 bg-hero bg-no-repeat shadow-lg">
+      <div className=" w-[85%] md:w-[650px] h-[85%] mx-auto py-4 px-8 bg-hero bg-no-repeat shadow-lg">
+        <h1 className="text-3xl font-extrabold text-center mb-6 ">
+          HangMan Game
+        </h1>
         <div className="flex flex-col w-full gap-3">
           <div className="font-semibold text-xl text-gray-800">
             <p>
