@@ -2,11 +2,10 @@ const Input = ({ inputValue, handleChange, handleGuess }) => {
   return (
     <div>
       <input
-        className="bg-stone-400 px-5 py-2 w-24 rounded-md ring-0 outline-none shadow-lg text-2xl text-white font-bold text-center placeholder:text-left placeholder:text-xl placeholder:text-gray-200 "
+        className="bg-stone-400 border-black border-2 px-5 py-2 w-24 rounded-md ring-0 outline-none shadow-lg text-2xl text-white font-bold text-center"
         type="text"
         value={inputValue}
         maxLength={1}
-        placeholder="try..."
         onChange={handleChange}
         onKeyPress={(event) => {
           if (event.key === "Enter") {

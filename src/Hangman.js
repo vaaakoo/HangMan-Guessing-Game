@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dead from "./image/dead.png";
 import words from "./components/words.json";
 import Score from "./components/Score";
 import Input from "./components/Input";
 import Images from "./components/Images";
+import hangman from "./image/hangman.gif";
 
 const Hangman = () => {
   const [wordIndex, setWordIndex] = useState(
@@ -17,6 +18,25 @@ const Hangman = () => {
   const [computerScore, setComputerScore] = useState(0);
   const [isPlayerWinner, setIsPlayerWinner] = useState(false);
   const [winner, setWinner] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="h-screen w-full flex flex-col mx-auto p-5">
+        <h1 className="text-5xl text-center font-bold">Hangman Game</h1>
+        <div className="mt-5 w-[300px] h-[300px] mx-auto shadow-gray-600 rounded-md shadow-md p-4">
+          <img src={hangman} alt="gif" className="w-full h-full" />
+        </div>
+        <p className="text-4xl text-center py-8">Loading...</p>
+      </div>
+    );
+  }
 
   const handleGuess = (letter) => {
     if (
