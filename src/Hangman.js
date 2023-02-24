@@ -6,11 +6,17 @@ import Input from "./components/Input";
 import Images from "./components/Images";
 import hangman from "./image/hangman.gif";
 
+const wordArray = Object.keys(words);
+
 const Hangman = () => {
-  const [wordIndex, setWordIndex] = useState(
-    Math.floor(Math.random() * words.length)
-  );
-  const [word, setWord] = useState(words[wordIndex]);
+  const randomIndex = Math.floor(Math.random() * wordArray.length);
+  const randomWord = wordArray[randomIndex];
+
+  const [wordIndex, setWordIndex] = useState(randomIndex);
+  const [randomDefinition, setRendomDefinition] = useState(words[randomWord]);
+
+  const [word, setWord] = useState(wordArray[randomIndex]);
+  console.log(wordIndex, word);
   const [guessedLetters, setGuessedLetters] = useState([]);
   const [incorrectGuesses, setIncorrectGuesses] = useState(0);
   const [inputValue, setInputValue] = useState("");
@@ -62,10 +68,11 @@ const Hangman = () => {
     setIncorrectGuesses(0);
     setGuessedLetters([]);
     setInputValue("");
+    setWordIndex(Math.floor(Math.random() * words.length));
+    setWord(wordArray[randomIndex]);
+    setRendomDefinition(words[randomWord]);
     if (isWordGuessed) {
       setPlayerScore(playerScore + 1);
-      setWordIndex((wordIndex + 1) % words.length);
-      setWord(words[wordIndex]);
     } else {
       setComputerScore(computerScore + 1);
     }
@@ -97,17 +104,28 @@ const Hangman = () => {
   };
 
   return (
-    <div className="h-screen max-w-full m-0 bg-slate-300 pt-3">
-      <div className=" w-[85%] md:w-[650px] h-[85%] mx-auto py-4 px-8 bg-hero bg-no-repeat shadow-lg">
+    <div className="h-screen md:h-screen  max-w-full m-0 bg-slate-300 pt-3">
+      <div className=" w-[85%] md:w-[650px] h-[90%] md mx-auto py-4 px-8 bg-hero bg-no-repeat shadow-lg">
         <h1 className="text-3xl font-extrabold text-center mb-6 ">
           HangMan Game
         </h1>
         <div className="flex flex-col w-full gap-3">
           <div className="font-semibold text-xl text-gray-800">
-            <p>
-              Word:{" "}
-              <span className="p-4 mx-2 italic"> {wordDisplay.join(" ")}</span>
-            </p>
+            <p className="italic">Question: {randomDefinition}</p>
+            {hasLost ? (
+              <p>
+                answer: <span className="p-4 mx-2 italic"> {word}</span>
+              </p>
+            ) : (
+              <p>
+                Word:{" "}
+                <span className="p-4 mx-2 italic">
+                  {" "}
+                  {wordDisplay.join(" ")}
+                </span>
+              </p>
+            )}
+
             <p>
               Incorrect Guesses: <span> {incorrectGuesses}</span>
             </p>
@@ -124,7 +142,7 @@ const Hangman = () => {
               >
                 Play Again
               </button>
-              <div className="mt-5 w-[300px] h-[300px] mx-auto shadow-gray-600 rounded-md shadow-md p-4">
+              <div className="mt-5 w-[250px] h-[250px] md:w-[300px] md:h-[300px] mx-auto shadow-gray-600 rounded-md shadow-md p-4">
                 <img src={dead} alt="dead" />
               </div>
             </>
